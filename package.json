@@ -3,10 +3,14 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@emotion/react": "^11.14.0",
+    "@emotion/styled": "^11.14.0",
+    "@mui/material": "^6.4.4",
     "cra-template-typescript": "1.2.0",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
-    "react-scripts": "^5.0.1"
+    "react-scripts": "^5.0.1",
+    "react-use": "^17.6.0"
   },
   "scripts": {
     "start": "react-scripts start",
@@ -34,8 +38,10 @@
   },
   "devDependencies": {
     "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
+    "@types/dom-speech-recognition": "^0.0.4",
     "@types/react": "^19.0.8",
     "@types/react-dom": "^19.0.3",
+    "@types/sass": "^1.45.0",
     "postcss-loader": "^8.1.1",
     "resolve-url-loader": "^5.0.0",
     "sass": "^1.84.0",
