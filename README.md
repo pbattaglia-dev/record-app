@@ -107,5 +107,8 @@ const handleOnStop = useCallback(() => {
 
 ## Demo
 
-![Mobile Demo Video](src/media/mobile-demo.mov)
+<video width="600" controls>
+  <source src="src/media/mobile-demo.mov" type="video/mp4">
+  Your browser does not support the video tag.
+</video>
 ![Desktop Demo Video](src/media/desktop-demo.mov)
