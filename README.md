@@ -107,5 +107,5 @@ const handleOnStop = useCallback(() => {
 
 ## Demo
 
-![Mobile Demo Video](media/mobile-demo.mp4)
-![Desktop Demo Video](media/desktop-demo.mp4)
+![Mobile Demo Video](src/media/mobile-demo.mov)
+![Desktop Demo Video](src/media/desktop-demo.mov)
