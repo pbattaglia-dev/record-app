@@ -10,6 +10,7 @@ import clsx from "clsx";
 export const RecordVoicePage = () => {
   const { matchesMobile } = useDeviceTypes();
 
+  const [isFirstTime, setIsFirstTime] = useState<boolean>(true);
   const [isActive, setIsActive] = useState<boolean>(false);
   const [isPause, setIsPause] = useState<boolean>(false);
   const [text, setText] = useState<string>('');
@@ -58,8 +59,12 @@ export const RecordVoicePage = () => {
       setIsPause(false);
     }
 
+    if (isFirstTime) {
+      setIsFirstTime(false);
+    }
+
     initializeRecognition();
-  }, [ isPause, initializeRecognition ]);
+  }, [ isPause, initializeRecognition, isFirstTime ]);
 
   const handleOnPause = useCallback(() => {
     recognitionRef.current?.stop();
@@ -91,6 +96,12 @@ export const RecordVoicePage = () => {
         margin={1}
         className={styles.speechContainer}
       >
+        {isFirstTime && (
+          <Typography className={styles.hint}>
+            {"Click on the play icon to start recording your voice.\n\nClick on the pause icon to pause the recording.\n\nClick on the stop icon to stop the recording."}
+          </Typography>
+        )}
+
         <Typography className={styles.speech}>
           {text}
         </Typography>

@@ -5,13 +5,21 @@
 }
 
 .speech {
-  font-size: 42px;
+  font-size: 36px !important;
   word-wrap: break-word;
   white-space: pre-wrap;
   overflow-x: hidden;
   text-align: left;
   color: black;
-  font-weight: 800;
+  font-weight: 800 !important;
+}
+
+.hint {
+  font-size: 18px !important;
+  text-align: left;
+  color: black;
+  font-weight: 800 !important;
+  white-space: pre-wrap;
 }
 
 .icon {
