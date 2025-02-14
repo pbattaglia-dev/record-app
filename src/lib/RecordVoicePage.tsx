@@ -43,8 +43,10 @@ export const RecordVoicePage = () => {
 
       recognitionRef.current.onresult = (event) => {
         const transcript = event.results[0][0].transcript;
-        if (speechRef.current?.length > 0) {
+        if (speechRef.current?.length > 0 && speechRef.current?.slice(-1) !== '\n') {
           setText(speechRef.current.concat(', ', transcript));
+        } else if (speechRef.current?.length > 0) {
+          setText(speechRef.current + transcript);
         } else {
           setText(transcript);
         }
