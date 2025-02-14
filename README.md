@@ -2,7 +2,7 @@
 
 ## Overview
 
-`RecordVoicePage` is a React component that enables voice recording using the Web Speech API. It supports starting, pausing, and stopping voice recognition while displaying transcribed text in real time.
+This app enables voice recording using the Web Speech API. It supports starting, pausing, and stopping voice recognition while displaying transcribed text.
 
 ## Features
 
@@ -104,17 +104,3 @@ const handleOnStop = useCallback(() => {
   setText('');
 }, []);
 ```
-
-## Known Issues & Improvements
-
-- **Browser Support**: The Web Speech API is supported in Chrome but has limited support in other browsers.
-- **Auto Restart Delay**: Consider adding a short delay before restarting recognition in `onend`.
-- **Multiple Language Support**: Can be extended by allowing users to select a language before starting recognition.
-
-## Contributing
-
-Feel free to submit issues or contribute by opening a pull request!
-
-## License
-
-This project is licensed under [MIT License](LICENSE).
