@@ -1,46 +1,120 @@
-# Getting Started with Create React App
+# Recording Voice App
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## Overview
 
-## Available Scripts
+`RecordVoicePage` is a React component that enables voice recording using the Web Speech API. It supports starting, pausing, and stopping voice recognition while displaying transcribed text in real time.
 
-In the project directory, you can run:
+## Features
 
-### `npm start`
+- **Start Recording**: Begins voice recognition and continuously transcribes speech.
+- **Pause Recording**: Temporarily stops recognition while keeping the recorded text.
+- **Stop Recording**: Fully stops recognition and clears the recorded text.
+- **Continuous Recognition**: Automatically restarts listening if the user stops speaking.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+## Technologies Used
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+- **React** (Functional Components, Hooks)
+- **Material-UI** (UI Components, Styling)
+- **SCSS** (Styling)
+- **Web Speech API** (SpeechRecognition)
 
-### `npm test`
+## Installation
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+1. Clone the repository:
+   ```sh
+   git clone <repository-url>
+   cd <project-folder>
+   ```
+2. Install dependencies:
+   ```sh
+   npm install
+   ```
+3. Start the development server:
+   ```sh
+   npm start
+   ```
 
-### `npm run build`
+## Usage
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+The component provides a simple UI with buttons to control speech recognition:
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+- **Play Button**: Starts/resumes recording.
+- **Pause Button**: Pauses recording.
+- **Stop Button**: Stops and clears recorded text.
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+## Code Explanation
 
-### `npm run eject`
+### **State & References**
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+- `isActive`: Tracks if speech recognition is active.
+- `isPause`: Tracks if recognition is paused.
+- `text`: Stores transcribed speech.
+- `recognitionRef`: Holds the `SpeechRecognition` instance.
+- `isActiveRef`, `isPauseRef`, `speechRef`: Keep track of state values inside event handlers.
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+### **Speech Recognition Setup**
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+```tsx
+const initializeRecognition = useCallback(() => {
+  if (!isActive) {
+    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+    recognitionRef.current = new SpeechRecognition();
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+    recognitionRef.current.onstart = () => setIsActive(true);
 
-## Learn More
+    recognitionRef.current.onend = () => {
+      if (isActiveRef.current && !isPauseRef.current) {
+        recognitionRef.current?.start();
+      }
+    };
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+    recognitionRef.current.onresult = (event) => {
+      const transcript = event.results[0][0].transcript;
+      setText((prevText) => prevText ? `${prevText}, ${transcript}` : transcript);
+    };
+  }
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+  recognitionRef.current?.start();
+}, [isActive]);
+```
+
+### **Event Handlers**
+
+- ``: Starts or resumes recognition.
+- ``: Stops recognition but keeps text.
+- ``: Aborts recognition and clears text.
+
+```tsx
+const handleOnRecord = useCallback(() => {
+  if (isPause) setIsPause(false);
+  initializeRecognition();
+}, [isPause, initializeRecognition]);
+
+const handleOnPause = useCallback(() => {
+  recognitionRef.current?.stop();
+  setIsPause(true);
+  setText((prev) => prev + '\n');
+}, []);
+
+const handleOnStop = useCallback(() => {
+  recognitionRef.current?.abort();
+  recognitionRef.current = null;
+  setIsActive(false);
+  setIsPause(false);
+  setText('');
+}, []);
+```
+
+## Known Issues & Improvements
+
+- **Browser Support**: The Web Speech API is supported in Chrome but has limited support in other browsers.
+- **Auto Restart Delay**: Consider adding a short delay before restarting recognition in `onend`.
+- **Multiple Language Support**: Can be extended by allowing users to select a language before starting recognition.
+
+## Contributing
+
+Feel free to submit issues or contribute by opening a pull request!
+
+## License
+
+This project is licensed under [MIT License](LICENSE).
