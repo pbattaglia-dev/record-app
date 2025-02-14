@@ -1,17 +1,20 @@
-import { useState, useRef, useCallback, useEffect } from 'react';
+import { useState, useRef, useCallback, useEffect, useMemo } from 'react';
 import { Box, Button, Typography } from '@mui/material';
 import styles from "./RecordVoicePage.module.scss";
 import { ReactComponent as Pause } from "./pause.svg";
 import { ReactComponent as Play } from "./play.svg";
 import { ReactComponent as Stop } from "./stop.svg";
+import { useDeviceTypes } from '../hooks';
+import clsx from "clsx";
 
 export const RecordVoicePage = () => {
-  const recognitionRef = useRef<SpeechRecognition>(null);
+  const { matchesMobile } = useDeviceTypes();
 
   const [isActive, setIsActive] = useState<boolean>(false);
   const [isPause, setIsPause] = useState<boolean>(false);
   const [text, setText] = useState<string>('');
 
+  const recognitionRef = useRef<SpeechRecognition>(null);
   const isActiveRef = useRef<boolean>(null);
   const isPauseRef = useRef<boolean>(null);
   const speechRef = useRef<string>('');
@@ -72,6 +75,10 @@ export const RecordVoicePage = () => {
     setText('')
   }, []);
 
+  const PrimaryIcon = useMemo(() => {
+    return isActive && !isPause ? Pause : Play;
+  }, [isActive, isPause]);
+
   return (
     <Box
       display="flex"
@@ -93,28 +100,31 @@ export const RecordVoicePage = () => {
         display="flex"
         justifyContent="space-evenly"
         alignItems="center"
-        height='35%'
-        margin={1}
-        gap={2}
+        height={matchesMobile ? '15%' : '35%'}
+        marginInline={1}
+        mb={1}
+        gap={matchesMobile ? 1 : 2}
       >
         <Button
-          sx={{ backgroundColor: "#c7cee8" }}
+          sx={{
+            backgroundColor: "#c7cee8",
+            borderRadius: matchesMobile ? "8px" : "20px",
+          }}
           onClick={!isActive || isPause ? handleOnRecord : handleOnPause}
           className={styles.button}
         >
-          {isActive && !isPause ? (
-            <Pause className={styles.icon} />
-          ) : (
-            <Play className={styles.icon} />
-          )}
+          <PrimaryIcon className={clsx(styles.icon, { [styles.small]: matchesMobile })} />
         </Button>
 
         <Button
-          sx={{ backgroundColor: "#bad1c6" }}
+          sx={{
+            backgroundColor: "#bad1c6",
+            borderRadius: matchesMobile ? "8px" : "20px",
+          }}
           onClick={handleOnStop}
           className={styles.button}
         >
-          <Stop className={styles.icon} />
+          <Stop className={clsx(styles.icon, { [styles.small]: matchesMobile })} />
         </Button>
       </Box>
     </Box>

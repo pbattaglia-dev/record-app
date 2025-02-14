@@ -18,6 +18,11 @@
   width: 64px !important;
   height: 64px !important;
 
+  &.small {
+    width: 32px !important;
+    height: 32px !important;
+  }
+
   path {
     fill: black;
   }
@@ -26,7 +31,6 @@
 .button {
   width: 100%;
   height: 100%;
-  border-radius: 20px;
   display: flex;
   align-items: center;
   justify-content: center;
