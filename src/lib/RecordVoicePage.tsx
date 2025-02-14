@@ -39,7 +39,11 @@ export const RecordVoicePage = () => {
 
       recognitionRef.current.onresult = (event) => {
         const transcript = event.results[0][0].transcript;
-        setText(speechRef.current.concat(', ', transcript));
+        if (speechRef.current?.length > 0) {
+          setText(speechRef.current.concat(', ', transcript));
+        } else {
+          setText(transcript);
+        }
       }
     }
 
@@ -70,54 +74,33 @@ export const RecordVoicePage = () => {
 
   return (
     <Box
-      sx={{
-        height: "100vh",
-        display: "flex",
-        flexDirection: "column",
-        padding: 2,
-      }}
+      display="flex"
+      flexDirection="column"
+      height="100%"
     >
       <Box
-        sx={{
-          flex: 1,
-          overflowY: "auto",
-          padding: 2,
-          borderRadius: 2,
-          backgroundColor: "#fff",
-          boxShadow: 1,
-        }}
+        borderRadius={2}
+        p={4}
+        margin={1}
+        className={styles.speechContainer}
       >
-        <Typography className={styles.speech} sx={{
-          wordWrap: "break-word",
-          whiteSpace: "pre-wrap",
-          overflowX: "hidden",
-          textAlign: "left",
-        }}>
+        <Typography className={styles.speech}>
           {text}
         </Typography>
       </Box>
 
       <Box
-        sx={{
-          display: "flex",
-          justifyContent: "space-evenly",
-          alignItems: "center",
-          height: "35%",
-          marginTop: 2,
-        }}
+        display="flex"
+        justifyContent="space-evenly"
+        alignItems="center"
+        height='35%'
+        margin={1}
+        gap={2}
       >
         <Button
-          sx={{
-            width: "40%",
-            height: "100%",
-            borderRadius: "20px",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            padding: "12px",
-            backgroundColor: "blue",
-          }}
+          sx={{ backgroundColor: "#c7cee8" }}
           onClick={!isActive || isPause ? handleOnRecord : handleOnPause}
+          className={styles.button}
         >
           {isActive && !isPause ? (
             <Pause className={styles.icon} />
@@ -127,17 +110,9 @@ export const RecordVoicePage = () => {
         </Button>
 
         <Button
-          sx={{
-            width: "40%",
-            height: "100%",
-            borderRadius: "20px",
-            backgroundColor: "red",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            padding: "12px",
-          }}
+          sx={{ backgroundColor: "#bad1c6" }}
           onClick={handleOnStop}
+          className={styles.button}
         >
           <Stop className={styles.icon} />
         </Button>
