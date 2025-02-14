@@ -104,3 +104,8 @@ const handleOnStop = useCallback(() => {
   setText('');
 }, []);
 ```
+
+## Demo
+
+![Mobile Demo Video](media/mobile-demo.mp4)
+![Desktop Demo Video](media/desktop-demo.mp4)
